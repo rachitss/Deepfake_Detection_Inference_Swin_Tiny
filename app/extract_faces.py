@@ -8,7 +8,7 @@ from facenet_pytorch import MTCNN
 
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 print(f'Running on device: {device}')
-
+ 
 
 
 from upload_video import get_video
