@@ -1,13 +1,7 @@
-import shutil
 from transformers import AutoImageProcessor, AutoModelForImageClassification
 from PIL import Image
-import pandas as pd
 from tqdm.auto import tqdm
-import multiprocessing as mp
-import numpy as np
 import torch
-import torch.nn as nn
-import matplotlib.pyplot as plt
 import os
 from transformers import logging
 logging.set_verbosity_error()

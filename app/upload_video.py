@@ -1,6 +1,5 @@
-from tkinter import Tk, Label, Button,  filedialog
+from tkinter import Label, Button,  filedialog
 from tkinterdnd2 import DND_FILES, TkinterDnD
-from pathlib import Path
 import os
 
 def handle_drop(event):
