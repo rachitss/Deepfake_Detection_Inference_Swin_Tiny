@@ -1,0 +1,11 @@
+tkinterdnd2==0.4.3
+torch==2.6.0+cpu
+torchvision==0.21.0+cpu
+facenet-pytorch==2.5.0
+opencv-python==4.11.0.86
+Pillow==11.0.0
+numpy==2.2.4
+tqdm==4.67.1
+transformers==4.51.0
+huggingface-hub==0.30.1
+tokenizers==0.21.1
