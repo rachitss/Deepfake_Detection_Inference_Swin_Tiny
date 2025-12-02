@@ -34,7 +34,7 @@ def main():
 
 
     # Load weights
-    model.load_state_dict(torch.load(model_path))
+    model.load_state_dict(torch.load(model_path), map_location=device)
     model = model.to(device)
 
 
