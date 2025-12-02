@@ -1,4 +1,7 @@
 import os
+import tempfile
+from pathlib import Path
+
 import torch
 import cv2
 from PIL import Image
@@ -8,10 +11,6 @@ from facenet_pytorch import MTCNN
 
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 print(f'Running on device: {device}')
- 
-
-
-from upload_video import get_video
 
 
 
@@ -101,29 +100,36 @@ def get_frames():
         face_extractor(VID_PATH, save_dir)
         
         return save_dir
-    
+
+
+def get_frames(video_path: str, tmp_root: str = 'MTCNN_EXTRACTED') -> str:
+    """Extract faces from the provided video path into a temp directory."""
+    os.makedirs(tmp_root, exist_ok=True)
+
+    scale = 0.25
+    n_frames = None
+
+    face_detector = MTCNN(margin=14, keep_all=True, factor=0.5, device=device).eval()
+    face_extractor = FaceExtractor(detector=face_detector, n_frames=n_frames, resize=scale)
+
+    with torch.no_grad():
+        stem = Path(video_path).stem or 'video'
+        save_dir = tempfile.mkdtemp(prefix=f'{stem}_', dir=tmp_root)
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+
+        face_extractor(video_path, save_dir)
+        return save_dir
 
 
 if __name__ == "__main__":
-    print(get_frames())
+    raise SystemExit("Call get_frames(video_path) from infer.py or the API service.")
 
 
-# import os
-# import glob
-# import json
-# import torch
-# import cv2
-# from PIL import Image
-# import numpy as np
-# import pandas as pd
-# from tqdm.notebook import tqdm
-# from facenet_pytorch import MTCNN
+"""Legacy GUI helper retained for reference only.
+from upload_video import get_video
 
-# from torch.utils.data import Dataset, DataLoader
-# from torch import nn, optim
-# from torch.nn import functional as F
-# from torchvision.models import resnet18
-# from albumentations import Normalize, Compose
-# import matplotlib.pyplot as plt
-# from sklearn.model_selection import train_test_split
-# import multiprocessing as mp
+def get_frames_gui():
+    video_path = get_video()
+    return get_frames(video_path)
+"""
