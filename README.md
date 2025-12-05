@@ -18,6 +18,17 @@ python -m app.infer --video path/to/video.mp4 --model-path swin_tiny.pth
 
 Responses contain `prediction` (0 real / 1 fake) and `probability`, which averages all sigmoid confidences collected across batches. The legacy Tkinter drag-and-drop flow has been commented out so uploads always pass through the CLI or FastAPI surface.
 
+### Docker (CPU only)
+
+```
+docker build -t deepfake-api:cpu .
+docker run --rm -p 8000:8000 \
+	-v %CD%/app/swin_tiny.pth:/app/app/swin_tiny.pth \
+	deepfake-api:cpu
+```
+
+On macOS/Linux replace `%CD%` with `$(pwd)`. The image installs CPU wheels via the PyTorch CPU index and starts `python app/run_api.py`. Ensure the weight file is mounted or baked into the image before running.
+
 ### Python version
 
 The scripts rely on **Python 3.13.2**. Other python versions might cause compatibility errors.
@@ -27,6 +38,7 @@ The scripts rely on **Python 3.13.2**. Other python versions might cause compati
 This repository uses **Git LFS** to store model weights.
 
 To clone the repository with all large files included, install Git LFS first.
+
 
 
 
